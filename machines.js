@@ -6,8 +6,12 @@ $(document).ready(function () {
     initiateDataSet();
     let mContainer = new Container();
     // mContainer.A('Z=5*X^2+7*X*Y+3*Y^2+1');
-    mContainer.A('Z=5*X^2+7*Y^2');
-    mContainer.A('Z=5*X^2+7*Y^3');
+    var allInputs = [];
+    allInputs.push('Z=5*X^2+7*Y^3+X*Y') //Z = 107, when {x = 3, y = 2} 
+    allInputs.push('A=Z*2+100')//A=314, from previous Z(107)
+    mContainer.I(allInputs);
+    // mContainer.A('Z=5*X^2+7*Y^3+X*Y+Z');
+    // mContainer.A('Z=5*X^2+7*Y^3');
 });
 
 
@@ -15,9 +19,32 @@ $(document).ready(function () {
 function initiateDataSet() {
     objectD = new D();
     Object.freeze(objectD);
-    objectD.setVariableBox('X', 2);
+    objectD.setVariableBox('A', 1);
+    objectD.setVariableBox('B', 2);
+    objectD.setVariableBox('C', 3);
+    objectD.setVariableBox('D', 4);
+    objectD.setVariableBox('E', 5);
+    objectD.setVariableBox('F', 6);
+    objectD.setVariableBox('G', 7);
+    objectD.setVariableBox('H', 8);
+    objectD.setVariableBox('I', 9);
+    objectD.setVariableBox('J', 10);
+    objectD.setVariableBox('K', 11);
+    objectD.setVariableBox('L', 12);
+    objectD.setVariableBox('M', 13);
+    objectD.setVariableBox('N', 14);
+    objectD.setVariableBox('O', 15);
+    objectD.setVariableBox('P', 16);
+    objectD.setVariableBox('Q', 17);
+    objectD.setVariableBox('R', 18);
+    objectD.setVariableBox('S', 19);
+    objectD.setVariableBox('T', 20);
+    objectD.setVariableBox('U', 21);
+    objectD.setVariableBox('V', 22);
+    objectD.setVariableBox('W', 23);
+    objectD.setVariableBox('X', 3);
     objectD.setVariableBox('Y', 2);
-    objectD.setVariableBox('Z', 1);
+    objectD.setVariableBox('Z', 4);
 }
 
 class Container {
@@ -40,15 +67,35 @@ class Container {
         this.oQueueD = new Queue();
     }
 
-    A(expression) {
-        let lhsRhs = expression.split('=');
-        this.iQueueE.enqueue(lhsRhs[1]);
+    I(expressions) {
+        expressions.forEach((expression) => {
+            this.iQueueI.enqueue(expression);
+        })
+        while (!this.iQueueI.isEmpty()) {
+            var exp = this.iQueueI.dequeue();
+            alert('Inside I machine sending to A: ' + exp);
+            this.iQueueA.enqueue(exp);
+            this.A();
+            var sum = this.oQueueI.dequeue();
+            alert('Inside I machine and we got back: ' + sum);
+        }
+    }
 
-        this.E();
+    A() {
+
+        while(!this.iQueueA.isEmpty()) {
+            let lhsRhs = this.iQueueA.dequeue().split('=');
+            alert('Inside A machine sending to E: ' + lhsRhs[1]);
+            this.iQueueE.enqueue(lhsRhs[1]);
+            this.E();
+            var sum = this.oQueueA.dequeue();
+            this.oQueueI.enqueue(sum);
+            alert('Inside A machine setting ' + lhsRhs[0] + " to " + sum);
+            objectD.setVariableBox(lhsRhs[0], sum);
+        }
     }
 
     E() {
-        alert('we are inside E');
         while (!this.iQueueE.isEmpty()) {
             console.log('E machine got the input ' + this.iQueueE.front());
 
@@ -58,18 +105,16 @@ class Container {
             let counter = 1;
             terms.forEach((term) => {
                 console.log("term sent is " + term)
-                if (counter % 2 == 0) {
+                if (counter % 2 != 0) {
+                    alert('Inside E sending to T1: ' + term);
                     this.iQueueT.enqueue(term);
                     this.T()
                 } else {
+                    alert('Inside E sending to T2: ' + term);
                     this.iQueueT2.enqueue(term);
                     this.T2();
                 }
                 counter++;
-
-
-
-
             })
 
         }
@@ -78,8 +123,8 @@ class Container {
         // objectT.splitFactor(terms[0]);
         while (!this.oQueueE.isEmpty()) {
             console.log("size is " + this.oQueueE.messages())
+            let sum = 0;
             if (this.oQueueE.messages() == this.ExprLength) {
-                let sum = 0;
                 while (!this.oQueueE.isEmpty()) {
                     sum += this.oQueueE.dequeue();
                 }
@@ -87,12 +132,12 @@ class Container {
             } else {
                 break;
             }
-
+            alert('Inside E machine sending back ' + sum);
+            this.oQueueA.enqueue(sum);
         }
     }
 
     T() {
-        alert('we are inside T1');
         console.log("i am in t1");
         while (!this.iQueueT.isEmpty()) {
 
@@ -104,9 +149,9 @@ class Container {
                 if (!isNaN(factors[i])) {
                     resultMul = resultMul * factors[i];
                 } else if (factors[i].length > 1) {
-
+                    alert('Inside T1 machine sending to P machine: ' + factors[i]);
                     this.iQueueP.enqueue(factors[i])
-                    this.P();
+                    this.P(1);
                     resultMul = resultMul * this.oQueueT.dequeue();
                     console.log("result is " + resultMul);
                     // resultMul = resultMul * this.P();
@@ -114,16 +159,15 @@ class Container {
                     resultMul = resultMul * objectD.getVariableBoxVal(factors[i]);
                 }
             }
+            alert('Inside T1 machine sending back ' + resultMul);
             this.oQueueE.enqueue(resultMul);
             this.E()
         }
     }
 
     T2() {
-        alert('we are inside T2');
         console.log("i am in t2");
         while (!this.iQueueT2.isEmpty()) {
-
             let term = this.iQueueT2.dequeue();
             console.log("term is " + term)
             let factors = term.split('*');
@@ -132,37 +176,41 @@ class Container {
                 if (!isNaN(factors[i])) {
                     resultMul = resultMul * factors[i];
                 } else if (factors[i].length > 1) {
-
+                    alert('Inside T2 machine sending to P machine: ' + factors[i]);
                     this.iQueueP.enqueue(factors[i])
-                    this.P();
-                    resultMul = resultMul * this.oQueueT.dequeue();
+                    this.P(2);
+                    resultMul = resultMul * this.oQueueT2.dequeue();
                     console.log("result is " + resultMul);
                     // resultMul = resultMul * this.P();
                 } else {
                     resultMul = resultMul * objectD.getVariableBoxVal(factors[i]);
                 }
             }
+            alert('Inside T2 machine sending back ' + resultMul);
             this.oQueueE.enqueue(resultMul);
             this.E()
         }
     }
 
-    P() {
-        alert('we are inside P');
+    P(tMachine) {
         while (!this.iQueueP.isEmpty()) {
             console.log('factor is ' + this.iQueueP.front())
             let numPow = this.iQueueP.dequeue().split('^');
+            let val = 0;
             console.log("calc power for " + numPow[0] + " ^ " + numPow[1])
             if (isNaN(numPow[0])) {
-                let val = Math.pow(objectD.getVariableBoxVal(numPow[0]), numPow[1]);
-                this.oQueueT.enqueue(val);
-                // return Math.pow(objectD.getVariableBoxVal(numPow[0]), numPow[1]);
-
+                val = Math.pow(objectD.getVariableBoxVal(numPow[0]), numPow[1]);
             } else {
-                this.oQueueT.enqueue(Math.pow(numPow[0], numPow[1]));
+                val = Math.pow(numPow[0], numPow[1]);
             }
-
-            // return Math.pow(numPow[0], numPow[1]);
+            if(tMachine == 1) {
+                this.oQueueT.enqueue(val);
+            }
+            else {
+                this.oQueueT2.enqueue(val);
+            }
+            
+            alert('Inside P machine sending back: ' + val);
         }
 
     }
@@ -216,103 +264,3 @@ class D {
         return this._variableBox[alpha];
     }
 }
-
-// class A {
-//     constructor() {
-
-//     }
-
-//     splitRHS(expression) {
-//         let lhsRhs = expression.split('=');
-//         let objectE = new E();
-//         objectE.splitExprWithPlus(lhsRhs[1]);
-//     }
-
-//     storeResult() {
-//         console.log('Store called');
-//     }
-// }
-
-// class E {
-//     constructor() {
-
-//     }
-
-//     splitExprWithPlus(rhs) {
-//         let terms = rhs.split('+');
-//         let objectT = new T();
-//         objectT.splitFactor(terms[0]);
-
-//     }
-// }
-
-// class T {
-//     constructor() {
-//         this.factors = [];
-//     }
-
-//     splitFactor(term) {
-//         this.factors = term.split('*');
-//         this.multiply();
-//     }
-
-//     multiply() {
-//         let resultMul = 1;
-//         for (let i = 0; i < this.factors.length; i++) {
-//             if (!isNaN(this.factors[i])) {
-//                 console.log(this.factors[i]);
-//                 resultMul = resultMul * this.factors[i];
-//                 console.log("resutl is " + resultMul);
-//             } else if (this.factors[i].length > 1) {
-//                 console.log(this.factors[i]);
-//                 let pObject = new P();
-//                 resultMul = resultMul * pObject.calculatePower(this.factors[i]);
-//                 console.log("resutl is " + resultMul);
-//             } else {
-//                 resultMul = resultMul * objectD.getVariableBoxVal(this.factors[i]);
-//                 console.log("resutl is " + resultMul);
-//             }
-//         }
-//         console.log("resutl is " + resultMul);
-//     }
-
-
-// }
-
-// class P {
-//     constructor() {
-
-//     }
-
-//     calculatePower(factor) {
-//         let numPow = factor.split('^');
-//         if (isNaN(numPow[0])) {
-//             return Math.pow(objectD.getVariableBoxVal(numPow[0]), numPow[1]);
-//         }
-//         return Math.pow(numPow[0], numPow[1]);
-//     }
-// }
-
-
-
-
-
-// class I {
-//     constructor() {
-//         this.instructions = {
-//             "Z=5*X^2+7*X*Y+3*Y^2+1.": null,
-//             "Z=5*X^2+7*X*Y+3*Y^2+4.": null,
-//             "Z=5*X^2+7*X*Y+3*Y^2+3.": null,
-//             "Z=5*X^2+7*X*Y+3*Y^2+2.": null
-//         };
-//         this.current = Object.keys(this.instructions)[0];
-//     }
-
-//     callA() {
-//         let objectA = new A();
-//         console.log(this.current);
-//         objectA.splitRHS(this.current);
-//     }
-
-
-// }
