@@ -71,7 +71,6 @@
                                 document.write('<td class="td"><input name="val' + alpha + '" value="' + objectD.getVariableBoxVal(alpha) + '" size="2" > </input></td>');
                             }
                         </script> 
-                        <!-- <td class="td action"><button type="button" class="btn-sm btn-success" onclick="edit(this)">Edit</button></td> -->
                     </tr>
                 </table>
             </div>
@@ -79,33 +78,4 @@
         </form>   
     </div>
 </body>
-<!-- <script>
-    function edit(element){
-        var tr = jQuery(element).parent().parent();
-        console.log(tr);
-        if(!tr.hasClass("editing")) {
-            tr.addClass("editing");
-            tr.find("td").each(function(){
-                if(!jQuery(this).hasClass("action")){
-                    var value = jQuery(this).text();
-                    jQuery(this).text("");
-                    jQuery(this).append('<input type="text" value="'+value+'" size="2" />');
-                } else {
-                    jQuery(this).find("BUTTON").text("Save");
-                }
-            });
-        } else {
-            tr.removeClass("editing");
-            tr.find("td").each(function(){
-                if(!jQuery(this).hasClass("action")){
-                    var value = jQuery(this).find("INPUT").val();
-                    jQuery(this).text(value);
-                    jQuery(this).find("INPUT").remove();
-                } else {
-                    jQuery(this).find("BUTTON").text("Edit");
-                }
-            });
-        }
-    }
-</script> -->
 </html>
