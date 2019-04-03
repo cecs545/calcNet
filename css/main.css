@@ -15,8 +15,8 @@ td {
     padding: 0 10px 0 10px;
 }
 .hline{
-    width: 112px;
-    height: 47px;
+    width: 70px;
+    height: 50px;
     border-bottom: 1px solid black;
     position: absolute;
 }
@@ -40,5 +40,23 @@ td {
     content:"";
     width:40px;
     transform: rotate(330deg);
+    transform-origin: 0% 0%;
+}
+.t1d_line{
+    height: 180px;
+    border-left: 1px dashed black;
+    position: absolute;
+    left: 0px;
+    /* visibility: hidden; */
+    transform: rotate(85deg);
+    transform-origin: 0% 0%;
+}
+.t2d_line{
+    height: 450px;
+    border-left: 1px dashed black;
+    position: absolute;
+    left:0px;
+    /* visibility: hidden; */
+    transform: rotate(47deg);
     transform-origin: 0% 0%;
 }
