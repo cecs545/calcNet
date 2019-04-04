@@ -1,9 +1,22 @@
+class D {
+    constructor() {
+        this._variableBox = {};
+    }
+
+    setVariableBox(alpha, val) {
+        this._variableBox[alpha] = val;
+    }
+
+    getVariableBoxVal(alpha) {
+        return this._variableBox[alpha];
+    }
+}
+
 let objectD;
 var timeout = 0;
 
 $(document).ready(function () {
 
-    initiateDataSet();
     let mContainer = new Container();
     // mContainer.A('Z=5*X^2+7*X*Y+3*Y^2+1');
     var allInputs = [];
@@ -46,6 +59,8 @@ function initiateDataSet() {
     objectD.setVariableBox('Y', 2);
     objectD.setVariableBox('Z', 4);
 }
+
+initiateDataSet();
 
 class Container {
     constructor() {
@@ -378,16 +393,4 @@ class Queue {
     }
 }
 
-class D {
-    constructor() {
-        this._variableBox = {};
-    }
 
-    setVariableBox(alpha, val) {
-        this._variableBox[alpha] = val;
-    }
-
-    getVariableBoxVal(alpha) {
-        return this._variableBox[alpha];
-    }
-}
