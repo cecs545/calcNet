@@ -19,9 +19,6 @@
             color: white;
             font-size: 25px;
         }
-        .tr.editing .td INPUT {
-            width:100px;
-        }
     </style>
 </head>
 
@@ -29,7 +26,7 @@
     <div class="container" style="margin-top:30px; width: 60%;">
         <div class="header">CalcNet - CECS 545 - Project 2</div>
         <br>
-        <form method="POST" action="machines.php">
+        <form action="display.html">
             <div class="form-group">
                 <label for="text">Input expression 1:</label>
                 <input type="text" class="form-control" name="input1" id="input1">
@@ -68,14 +65,34 @@
                             for(var i=65;i<=90;i++) {
                                 // Display the letter values as initialized in machines.js
                                 var alpha = String.fromCharCode(i);
-                                document.write('<td class="td"><input name="val' + alpha + '" value="' + objectD.getVariableBoxVal(alpha) + '" size="2" > </input></td>');
+                                document.write('<td class="td"><input id="val' + alpha + '" value="' + objectD.getVariableBoxVal(alpha) + '" size="2" > </input></td>');
                             }
                         </script> 
                     </tr>
                 </table>
             </div>
-            <input type="submit" class="btn btn-primary"></input>
+            <input type="submit" class="btn btn-primary" onclick="updateInputData()"></input>
         </form>   
     </div>
 </body>
+<script>
+    function updateInputData() {
+        // update the variables defined by the user
+        for (let i = 65; i <= 90; i++){
+            var alpha = String.fromCharCode(i);
+            var value = document.getElementById("val"+alpha).value;
+            objectD.setVariableBox(alpha, value);
+        }
+
+        // update the input expressions given by the user
+        var allInputs = [];
+        for (let i = 1; i <= 5; i++) {
+            allInputs.push(document.getElementById('input'+i).value);
+        }
+
+        // create a new container and call the input machine
+        let mContainer = new Container();
+        mContainer.I(allInputs);
+    }
+</script>
 </html>
