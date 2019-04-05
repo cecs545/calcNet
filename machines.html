@@ -8,20 +8,12 @@
     <link rel="stylesheet" type="text/css" media="screen" href="css/main.css">
     <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    
-    <script type="text/javascript">
-    
-        document.getElementById('statement-input').onsumbit = function() {
-            var theFormItself = document.getElementById('statement-input');
-            theFormItself.style.display = 'none';
-        }
-    </script>
 </head>
 <body>
     <div class="container">
-        <!-- <div class="row">
-            Enter your statements in at lease one of the five boxes.<br> Sample input format Z=5*X^2+7*X*Y+3*Y^2+1.
-            <table>
+        <div class="row" style="height:50px;">
+            Enter your statements in at lease one of the five boxes. Sample input format Z=5*X^2+7*X*Y+3*Y^2+1.
+            <!-- <table>
                 <tr>
                     <td>o- The end of input is marked with a period mark </td>
                     <td>o- The only operations are those shown in this sample </td>
@@ -31,20 +23,20 @@
                     <td>o- No parentheses, or other operators are allowed</td>
                     <td>o- There are no spaces in the statement string.</td>
                 </tr>
-            </table>
+            </table> -->
         </div>
-        <div class="row">
-            <form id="statement-input" onsubmit="onclick(inputMachineI())">
-                <input type="text" id="" size="125"></input>
-                !-- <input type="text" id="" size="25"></input>
-                <input type="text" id="" size="25"></input>
-                <input type="text" id="" size="25"></input>
-                <input type="text" id="" size="25"></input> -->
+        <div class="row" style="height:50px;">
+            <form id="statement-input" onsubmit=" return doc_ready()">
+                <!-- <input type="text" id="" size="125"></input> -->
+                <input type="text" id="" size="25" name="input1" value="input1" id="input1"></input>
+                <input type="text" id="" size="25" name="input2" value="input2" id="input2"></input>
+                <input type="text" id="" size="25" value="input3" id="input3"></input>
+                <input type="text" id="" size="25" value="input4" id="input4"></input>
                 <!-- <label for="data"><br>Enter the values of the variables separated by space. Example: X=5 Y=7</label>
-                <input type="text" id="data"></input> --
+                <input type="text" id="data"></input> -->
                 <input type="submit" value="submit"></inpit>
             </form>
-        </div> -->
+        </div>
         <div class="row">
             <div class="col-3">
                 Input Machine<br>
@@ -112,8 +104,23 @@
             </div>            
         </div>
     </div>
-    
-    <script src="machines.js"></script>
-    
+        
 </body>
+<script src="machines.js"></script>
+    <script type="text/javascript">
+
+        function doc_ready() {
+
+            var input1 = document.getElementById('input1').value.text;
+            var input2 = document.getElementById('input2').value;
+            // var input3 = document.getElementById('input3').value;
+
+            console.log(input1); // this doesn;t show up in the console
+            var allInputs = [];
+            allInputs.push('Z=5*X^2+7*Y^3+X*Y');
+            allInputs.push('A=3*Z+100');
+
+            Input_values(allInputs);
+        };
+    </script>
 </html>
