@@ -45,10 +45,13 @@
 
         function inputExpr(form) {
             // console.log("Hello World");
+            
             if(form.input1.value.trim() === "" && form.input2.value.trim() === "" && form.input3.value.trim() === "" && form.input4.value.trim() === "" && form.input5.value.trim() === "") {
                 alert("Enter at least one expression.");
                 return false;
             }
+
+            var allInputs = [];
 
             for (let i = 1; i < 6; i++) {
                 var input = "input"+i;
@@ -75,7 +78,7 @@
                 var variable = "val"+alpha;
                 // var value = form.variable.value;
                 
-                console.log(form[variable].value);
+                // console.log(form[variable].value);
 
                 // var value = document.getElementById("val"+alpha).value;
                 objectD.setVariableBox(alpha, form[variable].value);
