@@ -1,3 +1,6 @@
+body{
+    font-size: 120%;
+}
 .row {
     display: flex;
     height: 100px;
@@ -6,6 +9,9 @@
 .btn-row{
     padding: 15px;
 }
+.row > div.col-sm{
+    border: 1px solid rebeccapurple
+}
 .row > div.col-3, div.col-2 {
     flex: 1;
     background: lightgrey;
@@ -13,6 +19,7 @@
 }
 span.statement {
     font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+    font-size: 100em;
 }
 td {
     padding: 0 10px 0 10px;

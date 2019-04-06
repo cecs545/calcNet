@@ -16,8 +16,8 @@ let objectD;
 var timeout = 0;
 // let allInputs;
 let mContainer;
-var color = '#ee0290';
-var wait = 1000;
+var color = '#d602ee';
+var wait = 500;
 var currentWait = (new Date()).getTime();
 
 function getWaitTime() {
@@ -34,7 +34,11 @@ function getWaitTime() {
 }
 
 $(document).ready(function () {
-
+    $('#myModal').on('shown.bs.modal', function(){
+        
+        variableLayout();
+    });
+    
     mContainer = new Container();
    
 });
@@ -105,6 +109,7 @@ class Container {
             this.A();
             var sum = this.oQueueI.dequeue();
             console.log('Waiting: ', timeout+wait);
+
             setTimeout(function(){ 
                 document.getElementById("Ii-expr").innerHTML = ' ';
                 document.getElementById("Io-expr").innerHTML = ' ';
@@ -118,7 +123,9 @@ class Container {
                 document.getElementById("Di-expr").innerHTML = ' ';
                 document.getElementById("T1o-expr").innerHTML = '';
                 document.getElementById("T2o-expr").innerHTML = '';
+
                 console.log("timeout in I reached");
+                
                 // alert('Inside I machine and we got back: ' + sum);
             }, getWaitTime());
         }
@@ -157,6 +164,7 @@ class Container {
              }, getWaitTime());
              setTimeout(function(){ 
                 document.getElementById("Io-expr").innerHTML = lhsRhs[0]+ " = " +sum; 
+                document.getElementById("expr_output").innerHTML += lhsRhs[0]+"="+lhsRhs[1]+"="+sum+" || ";
                 console.log("timeout in A4 reached");
             }, getWaitTime());
         }
@@ -367,12 +375,12 @@ class Container {
             if (isNaN(numPow[0])) {
                 val = Math.pow(objectD.getVariableBoxVal(numPow[0]), numPow[1]);
                 setTimeout(function(){
-                    document.getElementById("TP").style.borderColor = 'black'; /////
+                    document.getElementById("T2P").style.borderColor = 'black';
                     document.getElementById("PD").style.borderBottomColor = color;
                     document.getElementById("PD").style.borderBottomWidth = 'medium';
                     document.getElementById("PD").style.borderBottomStyle = 'solid';
                     document.getElementById("Di-expr").innerHTML = numPow[0]+ " = " +objectD.getVariableBoxVal(numPow[0]);
-                    document.getElementById("TP").style.borderColor = color;
+                    // document.getElementById("T2P").style.borderColor = color;
                 }, getWaitTime());
             } else {
                 val = Math.pow(numPow[0], numPow[1]);
