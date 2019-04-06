@@ -19,6 +19,11 @@
             theFormItself.style.display = 'none';
         }
 
+        function inputExpr(form) {
+            console.log("Hello World");
+            $('#ModalExpr').modal('hide');
+        }
+
         function inputVariables(form) {
             // objectD.setVariableBox(alpha, value);
             // objectD.setVariableBox(alpha, value);
@@ -87,13 +92,13 @@
     </script>
 </head>
 <body>
-    <form id="statement-input" onsubmit="inputVariables(this); return false">
         <div class="container">
             <div class="row">
 
             <!-- Trigger/Open The Modal -->
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalExpr">Expressions</button>
-    
+            <form id="statement-input" onsubmit="inputExpr(this); return false">
+
             <div class="modal" id="ModalExpr">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -131,18 +136,19 @@
                         
                         <!-- Modal footer -->
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-success" data-dismiss="modal">StoreValuesBtn</button>
+                            <input type="submit" class="btn btn-success" value="submit"></input>
                         </div>
     
                         </div>
                     </div>
                 </div>
 
-
+            </form>
 
             <!-- Trigger/Open The Modal -->
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Variables</button>
-            
+        <form id="statement-input" onsubmit="inputVariables(this); return false">
+
             <div class="modal" id="myModal">
                 <div class="modal-dialog">
                     <div class="modal-content">
