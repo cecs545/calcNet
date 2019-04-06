@@ -23,8 +23,8 @@ single-letter variables.
   1. index.html
   2. machines.js
   3. css
- 	    |--- main.css
- 	    |--- bootstrap.min.css
+ 	   - |--- main.css
+ 	   - |--- bootstrap.min.css
   4. README.txt
   5. Architecture Analysis
 
