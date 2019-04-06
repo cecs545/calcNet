@@ -14,21 +14,24 @@ class D {
 
 let objectD;
 var timeout = 0;
+let allInputs;
+let mContainer;
 
-/*$(document).ready(function () {
+$(document).ready(function () {
 
-    let mContainer = new Container();
+    mContainer = new Container();
+    allInputs = [];
+    
     // mContainer.A('Z=5*X^2+7*X*Y+3*Y^2+1');
-    var allInputs = [];
-    allInputs.push('Z=5*X^2+7*Y^3+X*Y') //Z = 107, when {x = 3, y = 2} 
+    // allInputs.push('Z=5*X^2+7*Y^3+X*Y') //Z = 107, when {x = 3, y = 2} 
     // allInputs.push('A=Z*2+100')//A=314, from previous Z(107)
     // allInputs.push('A=J*2+7*B^3+7*C^3+F+100')//A=314, from previous Z(107)
 
-    mContainer.I(allInputs);
+    // mContainer.I(allInputs);
     // mContainer.A('Z=5*X^2+7*Y^3+X*Y+Z');
     // mContainer.A('Z=5*X^2+7*Y^3');
    
-});*/
+});
 
 function initiateDataSet() {
     objectD = new D();

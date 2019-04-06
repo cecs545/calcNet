@@ -21,36 +21,19 @@
 
         function inputExpr(form) {
             console.log("Hello World");
+            allInputs.push(form.input1.value);
+            allInputs.push(form.input2.value);
+            allInputs.push(form.input3.value);
+            allInputs.push(form.input4.value);
+            allInputs.push(form.input5.value);
+            // allInputs.push('Z=5*X^2+7*Y^3+X*Y') //Z = 107, when {x = 3, y = 2} 
+
+            mContainer.I(allInputs);
+
             $('#ModalExpr').modal('hide');
         }
 
         function inputVariables(form) {
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
-            // objectD.setVariableBox(alpha, value);
             for (let i = 65; i <= 90; i++){
                 var alpha = String.fromCharCode(i);
 
@@ -61,7 +44,7 @@
 
 
                 // var value = document.getElementById("val"+alpha).value;
-                // objectD.setVariableBox(alpha, value);
+                objectD.setVariableBox(alpha, form[variable].value);
             }
 
             // var value = document.getElementById("val"+alpha).value;
