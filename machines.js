@@ -15,7 +15,7 @@ class D {
 let objectD;
 var timeout = 0;
 
-$(document).ready(function () {
+/*$(document).ready(function () {
 
     let mContainer = new Container();
     // mContainer.A('Z=5*X^2+7*X*Y+3*Y^2+1');
@@ -28,7 +28,7 @@ $(document).ready(function () {
     // mContainer.A('Z=5*X^2+7*Y^3+X*Y+Z');
     // mContainer.A('Z=5*X^2+7*Y^3');
    
-});
+});*/
 
 function initiateDataSet() {
     objectD = new D();
