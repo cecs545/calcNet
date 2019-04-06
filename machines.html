@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="css/main.css">
     <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="machines.js"></script>
     
     <script type="text/javascript">
     
@@ -19,6 +20,45 @@
 </head>
 <body>
     <div class="container">
+        <!-- Trigger/Open The Modal -->
+        <button id="myBtn">Open Modal</button>
+
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="form-group table">
+                        <label>Edit the default variable values:</label>
+                        <table>
+                            <tr>
+                                <script> 
+                                    for(var i=65;i<=77;i++) {
+                                        // Display the letters as the header
+                                        document.write("<th>" + String.fromCharCode(i) + "</th>");
+                                    }
+                                    document.write('<tr>');
+                                    for(var i=65;i<=77;i++) {
+                                        // Display the letter values as initialized in machines.js
+                                        var alpha = String.fromCharCode(i);
+                                        document.write('<td class="td"><input id="val' + alpha + '" value="' + objectD.getVariableBoxVal(alpha) + '" size="2" > </input></td>');                                     
+                                    }
+                                    document.write('</tr>');
+                                    for(var i=78;i<=90;i++) {
+                                        // Display the letters as the header
+                                        document.write("<th>" + String.fromCharCode(i) + "</th>");
+                                    }
+                                    document.write('<tr>');
+                                    for(var i=78;i<=90;i++) {
+                                        // Display the letter values as initialized in machines.js
+                                        var alpha = String.fromCharCode(i);
+                                        document.write('<td class="td"><input id="val' + alpha + '" value="' + objectD.getVariableBoxVal(alpha) + '" size="2" > </input></td>');
+                                    }
+                                </script> 
+                            </tr>
+                        </table>
+                    </div>
+            </div>
+        </div>
+
         <!-- <div class="row">
             Enter your statements in at lease one of the five boxes.<br> Sample input format Z=5*X^2+7*X*Y+3*Y^2+1.
             <table>
@@ -113,7 +153,32 @@
         </div>
     </div>
     
-    <script src="machines.js"></script>
-    
+    <script>
+            // Get the modal
+            var modal = document.getElementById('myModal');
+            
+            // Get the button that opens the modal
+            var btn = document.getElementById("myBtn");
+            
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+            
+            // When the user clicks the button, open the modal 
+            btn.onclick = function() {
+              modal.style.display = "block";
+            }
+            
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+              modal.style.display = "none";
+            }
+            
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+              if (event.target == modal) {
+                modal.style.display = "none";
+              }
+            }
+    </script>
 </body>
 </html>
