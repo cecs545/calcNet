@@ -3,6 +3,9 @@
     height: 100px;
     /* border: 1px solid grey; */
 }
+.btn-row{
+    padding: 15px;
+}
 .row > div.col-3, div.col-2 {
     flex: 1;
     background: lightgrey;

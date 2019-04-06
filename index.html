@@ -19,17 +19,52 @@
             theFormItself.style.display = 'none';
         }
 
+        function validateInputs(form) {
+            if(form.input1.value.trim() === "") {
+                alert("Input 1 must have an expression.");
+                return false;
+            }
+            if(form.input2.value.trim() === "") {
+                alert("Input 2 must have an expression.");
+                return false;
+            }
+            if(form.input3.value.trim() === "") {
+                alert("Input 3 must have an expression.");
+                return false;
+            }
+            if(form.input4.value.trim() === "") {
+                alert("Input 4 must have an expression.");
+                return false;
+            }
+            if(form.input5.value.trim() === "") {
+                alert("Input 5 must have an expression.");
+                return false;
+            }
+        }
+
+
         function inputExpr(form) {
-            console.log("Hello World");
-            allInputs.push(form.input1.value);
-            allInputs.push(form.input2.value);
-            allInputs.push(form.input3.value);
-            allInputs.push(form.input4.value);
-            allInputs.push(form.input5.value);
+            // console.log("Hello World");
+            if(form.input1.value.trim() === "" && form.input2.value.trim() === "" && form.input3.value.trim() === "" && form.input4.value.trim() === "" && form.input5.value.trim() === "") {
+                alert("Enter at least one expression.");
+                return false;
+            }
+
+            for (let i = 1; i < 6; i++) {
+                var input = "input"+i;
+
+                if (form[input].value !== "") {
+                    if ((/^[^\s@]+\.$/.test(form[input].value)) === false) {
+                        alert("The end of input is marked with a period mark");
+                        return false;
+                    }
+                    allInputs.push(form[input].value);
+                }
+            }
+
             // allInputs.push('Z=5*X^2+7*Y^3+X*Y') //Z = 107, when {x = 3, y = 2} 
 
             mContainer.I(allInputs);
-
             $('#ModalExpr').modal('hide');
         }
 
@@ -41,7 +76,6 @@
                 // var value = form.variable.value;
                 
                 console.log(form[variable].value);
-
 
                 // var value = document.getElementById("val"+alpha).value;
                 objectD.setVariableBox(alpha, form[variable].value);
@@ -74,11 +108,107 @@
 
     </script>
 </head>
-<body>
-        <div class="container">
-            <div class="row">
+<body style="background-color: aliceblue">
+    <div class="container">
+        <div class="row btn-row">
+            <div class="col-md-3 offset-md-3 align-self-center">
+                    <!-- Variable The Modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Variables</button>
+                <form id="statement-input" onsubmit="inputVariables(this); return false">
 
-            <!-- Trigger/Open The Modal -->
+                    <div class="modal" id="myModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Edit the default variable values:</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                
+                                <!--Variable Modal body -->
+                                <div class="modal-body">
+                                    <div class="form-group table">
+                                        <table>
+                                            <tr>
+                                                <script> 
+                                                // ROW ONE 
+                                                    for(var i=65;i<=70;i++) {
+                                                        // Display the letters as the header
+                                                        document.write("<th>" + String.fromCharCode(i) + "</th>");
+                                                    }
+                                                    document.write('</tr><tr>');
+                                                    for(var i=65;i<=70;i++) {
+                                                        // Display the letter values as initialized in machines.js
+                                                        var alpha = String.fromCharCode(i);
+                                                        document.write('<td class="td"><input id="val' + alpha + '" value="' + objectD.getVariableBoxVal(alpha) + '" size="2" > </input></td>');                                     
+                                                    }
+                                                    document.write('</tr><tr>');
+                                                // ROW TWO
+                                                    for(var i=71;i<=76;i++) {
+                                                        // Display the letters as the header
+                                                        document.write("<th>" + String.fromCharCode(i) + "</th>");
+                                                    }
+                                                    document.write('</tr><tr>');
+                                                    for(var i=71;i<=76;i++) {
+                                                        // Display the letter values as initialized in machines.js
+                                                        var alpha = String.fromCharCode(i);
+                                                        document.write('<td class="td"><input id="val' + alpha + '" value="' + objectD.getVariableBoxVal(alpha) + '" size="2" > </input></td>');
+                                                    }
+                                                // ROW THREE
+                                                    document.write('</tr><tr>');
+                                                    for(var i=77;i<=82;i++) {
+                                                        // Display the letters as the header
+                                                        document.write("<th>" + String.fromCharCode(i) + "</th>");
+                                                    }
+                                                    document.write('</tr><tr>');
+                                                    for(var i=77;i<=82;i++) {
+                                                        // Display the letter values as initialized in machines.js
+                                                        var alpha = String.fromCharCode(i);
+                                                        document.write('<td class="td"><input id="val' + alpha + '" value="' + objectD.getVariableBoxVal(alpha) + '" size="2" > </input></td>');                                     
+                                                    }
+                                                // ROW FOUR
+                                                    document.write('</tr><tr>');
+                                                    for(var i=83;i<=88;i++) {
+                                                        // Display the letters as the header
+                                                        document.write("<th>" + String.fromCharCode(i) + "</th>");
+                                                    }
+                                                    document.write('</tr><tr>');
+                                                    for(var i=83;i<=88;i++) {
+                                                        // Display the letter values as initialized in machines.js
+                                                        var alpha = String.fromCharCode(i);
+                                                        document.write('<td class="td"><input id="val' + alpha + '" value="' + objectD.getVariableBoxVal(alpha) + '" size="2" > </input></td>');                                     
+                                                    }
+                                                // ROW THREE
+                                                document.write('</tr><tr>');
+                                                    for(var i=89;i<=90;i++) {
+                                                        // Display the letters as the header
+                                                        document.write("<th>" + String.fromCharCode(i) + "</th>");
+                                                    }
+                                                    document.write('</tr><tr>');
+                                                    for(var i=89;i<=90;i++) {
+                                                        // Display the letter values as initialized in machines.js
+                                                        var alpha = String.fromCharCode(i);
+                                                        document.write('<td class="td"><input id="val' + alpha + '" value="' + objectD.getVariableBoxVal(alpha) + '" size="2" > </input></td>');                                     
+                                                    }
+                                                </script> 
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                
+                                <!-- Variable Modal footer -->
+                                <div class="modal-footer">
+                                    <input type="submit" class="btn btn-success" value="submit"></input>
+                                </div>
+        
+                            </div>
+                            </div>
+                        </div>
+                    
+                </form>
+            </div>
+
+            <div class="col-md-6 align-self-center">
+            <!-- Expression Modal -->
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalExpr">Expressions</button>
             <form id="statement-input" onsubmit="inputExpr(this); return false">
 
@@ -87,11 +217,11 @@
                     <div class="modal-content">
                     
                         <div class="modal-header">
-                            <h4 class="modal-title">Enter maximum 5 expressions:</h4>
+                            <h4 class="modal-title">Enter at least one expression:</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         
-                        <!-- Modal body -->
+                        <!--Expression Modal body -->
                         <div class="modal-body">
                             <div class="form-group table">
                                 <div class="form-group">
@@ -117,7 +247,7 @@
                             </div>
                         </div>
                         
-                        <!-- Modal footer -->
+                        <!--Expression Modal footer -->
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-success" value="submit"></input>
                         </div>
@@ -127,104 +257,8 @@
                 </div>
 
             </form>
-
-            <!-- Trigger/Open The Modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Variables</button>
-        <form id="statement-input" onsubmit="inputVariables(this); return false">
-
-            <div class="modal" id="myModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                    
-                        <div class="modal-header">
-                            <h4 class="modal-title">Edit the default variable values:</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        </div>
-                        
-                        <!-- Modal body -->
-                        <div class="modal-body">
-                            <div class="form-group table">
-                                <table>
-                                    <tr>
-                                        <script> 
-                                        // ROW ONE 
-                                            for(var i=65;i<=70;i++) {
-                                                // Display the letters as the header
-                                                document.write("<th>" + String.fromCharCode(i) + "</th>");
-                                            }
-                                            document.write('</tr><tr>');
-                                            for(var i=65;i<=70;i++) {
-                                                // Display the letter values as initialized in machines.js
-                                                var alpha = String.fromCharCode(i);
-                                                document.write('<td class="td"><input id="val' + alpha + '" value="' + objectD.getVariableBoxVal(alpha) + '" size="2" > </input></td>');                                     
-                                            }
-                                            document.write('</tr><tr>');
-                                        // ROW TWO
-                                            for(var i=71;i<=76;i++) {
-                                                // Display the letters as the header
-                                                document.write("<th>" + String.fromCharCode(i) + "</th>");
-                                            }
-                                            document.write('</tr><tr>');
-                                            for(var i=71;i<=76;i++) {
-                                                // Display the letter values as initialized in machines.js
-                                                var alpha = String.fromCharCode(i);
-                                                document.write('<td class="td"><input id="val' + alpha + '" value="' + objectD.getVariableBoxVal(alpha) + '" size="2" > </input></td>');
-                                            }
-                                        // ROW THREE
-                                            document.write('</tr><tr>');
-                                            for(var i=77;i<=82;i++) {
-                                                // Display the letters as the header
-                                                document.write("<th>" + String.fromCharCode(i) + "</th>");
-                                            }
-                                            document.write('</tr><tr>');
-                                            for(var i=77;i<=82;i++) {
-                                                // Display the letter values as initialized in machines.js
-                                                var alpha = String.fromCharCode(i);
-                                                document.write('<td class="td"><input id="val' + alpha + '" value="' + objectD.getVariableBoxVal(alpha) + '" size="2" > </input></td>');                                     
-                                            }
-                                        // ROW FOUR
-                                            document.write('</tr><tr>');
-                                            for(var i=83;i<=88;i++) {
-                                                // Display the letters as the header
-                                                document.write("<th>" + String.fromCharCode(i) + "</th>");
-                                            }
-                                            document.write('</tr><tr>');
-                                            for(var i=83;i<=88;i++) {
-                                                // Display the letter values as initialized in machines.js
-                                                var alpha = String.fromCharCode(i);
-                                                document.write('<td class="td"><input id="val' + alpha + '" value="' + objectD.getVariableBoxVal(alpha) + '" size="2" > </input></td>');                                     
-                                            }
-                                        // ROW THREE
-                                        document.write('</tr><tr>');
-                                            for(var i=89;i<=90;i++) {
-                                                // Display the letters as the header
-                                                document.write("<th>" + String.fromCharCode(i) + "</th>");
-                                            }
-                                            document.write('</tr><tr>');
-                                            for(var i=89;i<=90;i++) {
-                                                // Display the letter values as initialized in machines.js
-                                                var alpha = String.fromCharCode(i);
-                                                document.write('<td class="td"><input id="val' + alpha + '" value="' + objectD.getVariableBoxVal(alpha) + '" size="2" > </input></td>');                                     
-                                            }
-                                        </script> 
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                        
-                        <!-- Modal footer -->
-                        <div class="modal-footer">
-                            <input type="submit" class="btn btn-success" value="submit"></input>
-
-                            <!-- <input type="submit" class="btn btn-success" data-dismiss="modal" value="submit"></input> -->
-                            <!-- <button type="button" class="btn btn-success" data-dismiss="modal">StoreValuesBtn</button> -->
-                        </div>
-
-                    </div>
-                    </div>
-                </div>
         </div>
-    </form>
+    </div>
         <!-- <div class="row">
             Enter your statements in at lease one of the five boxes.<br> Sample input format Z=5*X^2+7*X*Y+3*Y^2+1.
             <table>
@@ -238,18 +272,6 @@
                     <td>o- There are no spaces in the statement string.</td>
                 </tr>
             </table>
-        </div>
-        <div class="row">
-            <form id="statement-input" onsubmit="onclick(inputMachineI())">
-                <input type="text" id="" size="125"></input>
-                !-- <input type="text" id="" size="25"></input>
-                <input type="text" id="" size="25"></input>
-                <input type="text" id="" size="25"></input>
-                <input type="text" id="" size="25"></input> -->
-                <!-- <label for="data"><br>Enter the values of the variables separated by space. Example: X=5 Y=7</label>
-                <input type="text" id="data"></input> --
-                <input type="submit" value="submit"></inpit>
-            </form>
         </div> -->
         <div class="row">
             <div class="col-3">
