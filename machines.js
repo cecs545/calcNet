@@ -1,20 +1,37 @@
+class D {
+    constructor() {
+        this._variableBox = {};
+    }
+
+    setVariableBox(alpha, val) {
+        this._variableBox[alpha] = val;
+    }
+
+    getVariableBoxVal(alpha) {
+        return this._variableBox[alpha];
+    }
+}
 
 let objectD;
+var timeout = 0;
+let allInputs;
+let mContainer;
 
 $(document).ready(function () {
 
-    initiateDataSet();
-    let mContainer = new Container();
+    mContainer = new Container();
+    allInputs = [];
+    
     // mContainer.A('Z=5*X^2+7*X*Y+3*Y^2+1');
-    var allInputs = [];
-    allInputs.push('Z=5*X^2+7*Y^3+X*Y') //Z = 107, when {x = 3, y = 2} 
-    allInputs.push('A=Z*2+100')//A=314, from previous Z(107)
-    mContainer.I(allInputs);
+    // allInputs.push('Z=5*X^2+7*Y^3+X*Y') //Z = 107, when {x = 3, y = 2} 
+    // allInputs.push('A=Z*2+100')//A=314, from previous Z(107)
+    // allInputs.push('A=J*2+7*B^3+7*C^3+F+100')//A=314, from previous Z(107)
+
+    // mContainer.I(allInputs);
     // mContainer.A('Z=5*X^2+7*Y^3+X*Y+Z');
     // mContainer.A('Z=5*X^2+7*Y^3');
+   
 });
-
-
 
 function initiateDataSet() {
     objectD = new D();
@@ -47,6 +64,8 @@ function initiateDataSet() {
     objectD.setVariableBox('Z', 4);
 }
 
+initiateDataSet();
+
 class Container {
     constructor() {
         this.ExprLength = 0;
@@ -71,33 +90,78 @@ class Container {
         expressions.forEach((expression) => {
             this.iQueueI.enqueue(expression);
         })
+
         while (!this.iQueueI.isEmpty()) {
             var exp = this.iQueueI.dequeue();
-            alert('Inside I machine sending to A: ' + exp);
+            // alert('Inside I machine sending to A: ' + exp);
+            
             this.iQueueA.enqueue(exp);
             this.A();
             var sum = this.oQueueI.dequeue();
-            alert('Inside I machine and we got back: ' + sum);
+            setTimeout(function(){ 
+                document.getElementById("Ii-expr").innerHTML = ' ';
+                document.getElementById("Io-expr").innerHTML = ' ';
+                document.getElementById("Ai-expr").innerHTML = ' ';
+                document.getElementById("Ao-expr").innerHTML = ' ';
+                document.getElementById("E-expr").innerHTML = ' ';
+                document.getElementById("T1-expr").innerHTML = ' ';
+                document.getElementById("T2-expr").innerHTML = ' ';
+                document.getElementById("Pi-expr").innerHTML = ' ';
+                document.getElementById("Po-expr").innerHTML = ' ';
+                document.getElementById("Di-expr").innerHTML = ' ';
+                document.getElementById("T1o-expr").innerHTML = '';
+                document.getElementById("T2o-expr").innerHTML = '';
+                
+                // alert('Inside I machine and we got back: ' + sum);
+            }, timeout=timeout+1000);
+
         }
     }
-
+    
     A() {
-
         while(!this.iQueueA.isEmpty()) {
-            let lhsRhs = this.iQueueA.dequeue().split('=');
-            alert('Inside A machine sending to E: ' + lhsRhs[1]);
+
+            var exp = this.iQueueA.dequeue();
+
+            setTimeout(function(){ 
+                document.getElementById("Ii-expr").innerHTML = exp; 
+            }, timeout=timeout+1000);
+
+            let lhsRhs = exp.split('=');
+            
+            // alert('Inside A machine sending to E: ' + lhsRhs[1]);
+            setTimeout(function(){
+                 document.getElementById("Ai-expr").innerHTML = lhsRhs[1];
+                 document.getElementById("IA").style.borderColor = 'red';
+
+                 //https://stackoverflow.com/questions/43513003/jquery-change-border-color-for-10-seconds
+            }, timeout=timeout+1000);
+
             this.iQueueE.enqueue(lhsRhs[1]);
             this.E();
             var sum = this.oQueueA.dequeue();
             this.oQueueI.enqueue(sum);
-            alert('Inside A machine setting ' + lhsRhs[0] + " to " + sum);
+            // alert('Inside A machine setting ' + lhsRhs[0] + " to " + sum);
+            
             objectD.setVariableBox(lhsRhs[0], sum);
+            setTimeout(function(){ 
+                document.getElementById("Ao-expr").innerHTML = "Assigning "+lhsRhs[0]+" to "+sum;
+             }, timeout=timeout+1000);
+             setTimeout(function(){ 
+                document.getElementById("Io-expr").innerHTML = lhsRhs[0]+ " = " +sum; 
+            }, timeout=timeout+1000);
         }
     }
 
     E() {
         while (!this.iQueueE.isEmpty()) {
-            console.log('E machine got the input ' + this.iQueueE.front());
+            var expr = this.iQueueE.front();
+            // console.log('E machine got the input ' + this.iQueueE.front());
+            setTimeout(function(){ 
+                document.getElementById("IA").style.borderColor = 'black';
+                document.getElementById("E-expr").innerHTML =  expr;
+                document.getElementById("AE").style.borderColor = 'red';
+            }, timeout=timeout+1000);
 
             let terms = this.iQueueE.dequeue().split('+');
             this.ExprLength = terms.length;
@@ -106,17 +170,31 @@ class Container {
             terms.forEach((term) => {
                 console.log("term sent is " + term)
                 if (counter % 2 != 0) {
-                    alert('Inside E sending to T1: ' + term);
+                    // alert('Inside E sending to T1: ' + term);
+                    setTimeout(function(){
+                        document.getElementById("AE").style.borderColor = 'black';
+                        document.getElementById("T1P").style.borderColor = 'black';
+                        document.getElementById("T2P").style.borderColor = 'black';
+                        document.getElementById("T1-expr").innerHTML = term;
+                        document.getElementById("ET1").style.borderColor = 'red';
+                    }, timeout=timeout+1000);
                     this.iQueueT.enqueue(term);
                     this.T()
                 } else {
-                    alert('Inside E sending to T2: ' + term);
+                    // alert('Inside E sending to T2: ' + term);
+                    setTimeout(function(){ 
+                        document.getElementById("AE").style.borderColor = 'black';
+                        document.getElementById("T1P").style.borderColor = 'black';
+                        document.getElementById("T2P").style.borderColor = 'black';
+                        document.getElementById("T2-expr").innerHTML = term; 
+                        document.getElementById("PD").style.borderColor = 'black';
+                        document.getElementById("ET2").style.borderColor = 'red';
+                    }, timeout=timeout+1000);
                     this.iQueueT2.enqueue(term);
                     this.T2();
                 }
                 counter++;
             })
-
         }
         // let terms = rhs.split('+');
         // let objectT = new T();
@@ -132,7 +210,7 @@ class Container {
             } else {
                 break;
             }
-            alert('Inside E machine sending back ' + sum);
+            // alert('Inside E machine sending back ' + sum);
             this.oQueueA.enqueue(sum);
         }
     }
@@ -140,26 +218,68 @@ class Container {
     T() {
         console.log("i am in t1");
         while (!this.iQueueT.isEmpty()) {
-
+            
             let term = this.iQueueT.dequeue();
             console.log("term is " + term)
+            // setTimeout(function(){
+            //     document.getElementById("T1-expr").innerHTML = term;
+            // }, timeout=timeout+1000);
+
             let factors = term.split('*');
             let resultMul = 1;
             for (let i = 0; i < factors.length; i++) {
                 if (!isNaN(factors[i])) {
                     resultMul = resultMul * factors[i];
                 } else if (factors[i].length > 1) {
-                    alert('Inside T1 machine sending to P machine: ' + factors[i]);
+                    // alert('Inside T1 machine sending to P machine: ' + factors[i]);
+                    setTimeout(function(){
+                        document.getElementById("T2-expr").innerHTML = '';
+                        document.getElementById("T2P").style.borderColor = 'black';
+                        document.getElementById("T1o-expr").innerHTML = '';
+                        document.getElementById("T1-expr").innerHTML = term;
+                    }, timeout=timeout+1000);
+                    setTimeout(function () {
+                        document.getElementById("ET1").style.borderColor = 'black';
+                        document.getElementById("T2P").style.borderColor = 'black';
+                        document.getElementById("T1P").style.borderColor = 'red';
+                    }, timeout=timeout+1000);
+
                     this.iQueueP.enqueue(factors[i])
                     this.P(1);
                     resultMul = resultMul * this.oQueueT.dequeue();
                     console.log("result is " + resultMul);
+                    setTimeout(function () {
+                        document.getElementById("T1o-expr").innerHTML = '= '+resultMul;
+                    }, timeout=timeout+1000);
                     // resultMul = resultMul * this.P();
                 } else {
+                    
+                    setTimeout(function () {
+                        document.getElementById("ET1").style.borderColor = 'black';
+                        document.getElementById("ET2").style.borderColor = 'black';
+                        document.getElementById("Di-expr").innerHTML = factors[i] +'='+ objectD.getVariableBoxVal(factors[i]);
+                        document.getElementById("T2P").style.borderColor = 'black';
+                        document.getElementById("T1D").style.borderColor = 'red';
+                        document.getElementById("T1D").style.borderWidth = 'medium';
+                        document.getElementById("T1D").style.borderStyle = 'solid';
+                    }, timeout=timeout+1000);
+                    
                     resultMul = resultMul * objectD.getVariableBoxVal(factors[i]);
+
+                    setTimeout(function () {
+                        document.getElementById("T1D").style.borderColor = 'black';
+                        document.getElementById("T1D").style.borderStyle = 'dashed';
+                        document.getElementById("T1D").style.borderWidth = 'thin';
+                        document.getElementById("ET1").style.borderColor = 'black';
+                        document.getElementById("ET2").style.borderColor = 'black';
+                        document.getElementById("PD").style.borderBottomColor = 'black';
+                        document.getElementById("PD").style.borderBottomStyle = 'dashed';
+                        document.getElementById("PD").style.borderBottomWidth = 'thin';
+                        document.getElementById("T2P").style.borderColor = 'red';
+                    }, timeout=timeout+1000);
                 }
             }
-            alert('Inside T1 machine sending back ' + resultMul);
+            // alert('Inside T1 machine sending back ' + resultMul);
             this.oQueueE.enqueue(resultMul);
             this.E()
         }
@@ -176,17 +296,47 @@ class Container {
                 if (!isNaN(factors[i])) {
                     resultMul = resultMul * factors[i];
                 } else if (factors[i].length > 1) {
-                    alert('Inside T2 machine sending to P machine: ' + factors[i]);
+                    // alert('Inside T2 machine sending to P machine: ' + factors[i]);
+                    setTimeout(function(){
+                        document.getElementById("T1P").style.borderColor = 'black';
+                        document.getElementById("T2P").style.borderColor = 'black';
+                        document.getElementById("T2o-expr").innerHTML = '';
+                        document.getElementById("T2-expr").innerHTML = term;
+                    }, timeout=timeout+1000);
+                    setTimeout(function () {
+                        document.getElementById("ET1").style.borderColor = 'black';
+                        document.getElementById("ET2").style.borderColor = 'black';
+                        document.getElementById("T2P").style.borderColor = 'red';
+                    }, timeout=timeout+1000);
+
                     this.iQueueP.enqueue(factors[i])
                     this.P(2);
                     resultMul = resultMul * this.oQueueT2.dequeue();
                     console.log("result is " + resultMul);
+                    setTimeout(function () {
+                        document.getElementById("T2o-expr").innerHTML = '= '+resultMul;
+                    }, timeout=timeout+1000);
                     // resultMul = resultMul * this.P();
                 } else {
+                    setTimeout(function () {
+                        document.getElementById("ET1").style.borderColor = 'black';
+                        document.getElementById("ET2").style.borderColor = 'black';
+
+                        document.getElementById("Di-expr").innerHTML = factors[i];
+                        document.getElementById("T2P").style.borderColor = 'red';
+                    }, timeout=timeout+1000);
+
                     resultMul = resultMul * objectD.getVariableBoxVal(factors[i]);
+
+                    setTimeout(function () {
+                        document.getElementById("ET1").style.borderColor = 'black';
+                        document.getElementById("ET2").style.borderColor = 'black';
+                        document.getElementById("Do-expr").innerHTML = objectD.getVariableBoxVal(factors[i]);
+                        document.getElementById("T2P").style.borderColor = 'red';
+                    }, timeout=timeout+1000);
                 }
             }
-            alert('Inside T2 machine sending back ' + resultMul);
+            // alert('Inside T2 machine sending back ' + resultMul);
             this.oQueueE.enqueue(resultMul);
             this.E()
         }
@@ -194,12 +344,27 @@ class Container {
 
     P(tMachine) {
         while (!this.iQueueP.isEmpty()) {
-            console.log('factor is ' + this.iQueueP.front())
+            var P_input = "factor is " + this.iQueueP.front();
+            console.log(P_input)
+            setTimeout(function(){
+                document.getElementById("Po-expr").innerHTML = '';
+                document.getElementById("Pi-expr").innerHTML = P_input;
+            }, timeout);
+
             let numPow = this.iQueueP.dequeue().split('^');
             let val = 0;
             console.log("calc power for " + numPow[0] + " ^ " + numPow[1])
+            
             if (isNaN(numPow[0])) {
                 val = Math.pow(objectD.getVariableBoxVal(numPow[0]), numPow[1]);
+                setTimeout(function(){
+                    document.getElementById("TP").style.borderColor = 'black';
+                    document.getElementById("PD").style.borderBottomColor = 'red';
+                    document.getElementById("PD").style.borderBottomWidth = 'medium';
+                    document.getElementById("PD").style.borderBottomStyle = 'solid';
+                    document.getElementById("Di-expr").innerHTML = numPow[0]+ " = " +objectD.getVariableBoxVal(numPow[0]);
+                    document.getElementById("TP").style.borderColor = 'red';
+                }, timeout=timeout+1000);
             } else {
                 val = Math.pow(numPow[0], numPow[1]);
             }
@@ -210,7 +375,17 @@ class Container {
                 this.oQueueT2.enqueue(val);
             }
             
-            alert('Inside P machine sending back: ' + val);
+            // alert('Inside P machine sending back: ' + val);
+            setTimeout(function(){
+                document.getElementById("PD").style.borderBottomColor = 'red';
+                document.getElementById("PD").style.borderBottomWidth = 'medium';
+                document.getElementById("PD").style.borderBottomStyle = 'solid';
+                document.getElementById("Di-expr").innerHTML = numPow[0]+ " = " +objectD.getVariableBoxVal(numPow[0]);
+                document.getElementById("Po-expr").innerHTML = "";
+            }, timeout=timeout+1000);
+            setTimeout(function(){
+                document.getElementById("Po-expr").innerHTML = numPow.join("^") +" = " +val;
+            }, timeout=timeout+1000);
         }
 
     }
@@ -247,20 +422,6 @@ class Queue {
             return "Machine Free";
         return this.items[0];
     }
-
-
 }
 
-class D {
-    constructor() {
-        this._variableBox = {};
-    }
 
-    setVariableBox(alpha, val) {
-        this._variableBox[alpha] = val;
-    }
-
-    getVariableBoxVal(alpha) {
-        return this._variableBox[alpha];
-    }
-}
